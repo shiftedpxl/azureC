@@ -477,7 +477,7 @@ function buildRequest() {
   let headers =
     `${reqmethod} ${url.pathname} HTTP/1.1\r\n` +
     `Accept: ${acceptHeaderValue}\r\n` +
-    "Accept-Encoding: gzip, deflate, br\r\n" +
+    "Accept-Encoding: gzip, deflate, br, zstd\r\n" +
     `Accept-Language: ${langValue}\r\n` +
     "Cache-Control: max-age=0\r\n" +
     "Connection: Keep-Alive\r\n" +
@@ -801,7 +801,7 @@ function go() {
                       "sec-fetch-mode": selectedModeValue,
                       ...(Math.random() < 0.5 && { "sec-fetch-user": "?1" }),
                       "sec-fetch-dest": selectedDestValue,
-                      "accept-encoding": "gzip, deflate, br",
+                      "accept-encoding": "gzip, deflate, br, zstd",
                       "accept-language": langValue,
                       "x-requested-with": "XMLHttpRequest",
                       ...(hcookie && { cookie: hcookie }),
@@ -828,12 +828,21 @@ function go() {
                         "cache-control": "max-age=0",
                       }),
                       ...(reqmethod === "POST" && { "content-length": "0" }),
+                      accept: acceptHeaderValue,
+                      "accept-encoding": "gzip, deflate, br, zstd",
+                      "accept-language": langValue,
+                      "dnt": "1",
+                      host: url.hostname,
+                      ...(Math.random() < 0.4 && { priority: `u=${fwq}, i` }),
                       "sec-ch-ua": secChUa,
                       "sec-ch-ua-mobile": "?0",
                       "sec-ch-ua-platform": `\"Windows\"`,
+                      "sec-fetch-dest": selectedDestValue,
+                      "sec-fetch-mode": selectedModeValue,
+                      "sec-fetch-site": selectedSiteValue,
+                      "sec-fetch-user": "?1",
                       "upgrade-insecure-requests": "1",
                       "user-agent": userAgent,
-                      accept: acceptHeaderValue,
                       ...(secGpcValue && { "sec-gpc": secGpcValue }),
                       ...(secChUaMobile && {
                         "sec-ch-ua-mobile": secChUaMobile,
@@ -845,14 +854,7 @@ function go() {
                       ...(secChUaPlatformVersion && {
                         "sec-ch-ua-platform-version": secChUaPlatformVersion,
                       }),
-                      "sec-fetch-site": selectedSiteValue,
-                      "sec-fetch-mode": selectedModeValue,
-                      "sec-fetch-user": "?1",
-                      "sec-fetch-dest": selectedDestValue,
-                      "accept-encoding": "gzip, deflate, br",
-                      "accept-language": langValue,
-                      "x-requested-with": "XMLHttpRequest",
-                      ...(Math.random() < 0.4 && { priority: `u=${fwq}, i` }),
+                      //"x-requested-with": "XMLHttpRequest",
                       ...(hcookie && { cookie: hcookie }),
                       ...(currentRefererValue && {
                         referer: currentRefererValue,
