@@ -274,10 +274,9 @@ if (isNaN(ratelimit) || ratelimit <= 0 || ratelimit > 90) {
 }
 
 if (bfmFlag && bfmFlag.toLowerCase() === "true") {
-  hcookie = `cf_clearance=${randstr(32)}_${randstr(11)}-${timestampString}-1.2.1.1-${randstr(172)}_${randstr(13)}_${randstr(32)}_${randstrr(45)}${randstr(40)}; PHPSESSID=${randstr(32)}`;
-  //`__cf_bm=${randstr(64)}-${timestampString}-1.0.1.1-${randstr(5)}.${randstr(30)}.${randstr(14)}.${randstr(20)}.${randstr(19)}; cf_clearance=${randstr(32)}_${randstr(11)}-${timestampString}-1.2.1.1-${randstr(172)}_${randstr(13)}_${randstr(32)}_${randstr(44)}.${randstr(40)}`;
-  // `cf_clearance=${randstr(32)}_${randstr(11)}-${timestampString}-1.2.1.1-${randstr(172)}_${randstr(13)}_${randstr(32)}_${randstrr(45)}${randstr(40)}`;
+  hcookie = `cf_clearance=${randstr(32)}_${randstr(11)}-${timestampString}-1.2.1.1-${randstr(172)}_${randstr(13)}_${randstr(32)}_${randstrr(45)}${randstr(40)}`;
 }
+ //`__cf_bm=${randstr(64)}-${timestampString}-1.0.1.1-${randstr(5)}.${randstr(30)}.${randstr(14)}.${randstr(20)}.${randstr(19)}; cf_clearance=${randstr(32)}_${randstr(11)}-${timestampString}-1.2.1.1-${randstr(172)}_${randstr(13)}_${randstr(32)}_${randstr(44)}.${randstr(40)}`;
 if (cookieValue) {
   if (cookieValue === "%RAND%") {
     hcookie = hcookie
@@ -477,7 +476,7 @@ function buildRequest() {
   let headers =
     `${reqmethod} ${url.pathname} HTTP/1.1\r\n` +
     `Accept: ${acceptHeaderValue}\r\n` +
-    "Accept-Encoding: gzip, deflate, br, zstd\r\n" +
+    "Accept-Encoding: gzip, deflate, br\r\n" +
     `Accept-Language: ${langValue}\r\n` +
     "Cache-Control: max-age=0\r\n" +
     "Connection: Keep-Alive\r\n" +
@@ -488,10 +487,9 @@ function buildRequest() {
     "Sec-Fetch-User: ?1\r\n" +
     "Upgrade-Insecure-Requests: 1\r\n" +
     `User-Agent: ${userAgent}\r\n` +
-    `Sec-Ch-Ua: ${secChUa}\r\n` +
-    "Sec-Ch-Ua-Mobile: ?0\r\n" +
-    'Sec-Ch-Ua-Platform: "Windows"\r\n' +
-    'X-Requested-With: "XMLHttpRequest"\r\n' +
+    `sec-ch-ua: ${secChUa}\r\n` +
+    "sec-ch-ua-mobile: ?0\r\n" +
+    'sec-ch-ua-platform: "Windows"\r\n' +
     mysor1;
 
   if (hcookie) {
@@ -801,9 +799,8 @@ function go() {
                       "sec-fetch-mode": selectedModeValue,
                       ...(Math.random() < 0.5 && { "sec-fetch-user": "?1" }),
                       "sec-fetch-dest": selectedDestValue,
-                      "accept-encoding": "gzip, deflate, br, zstd",
+                      "accept-encoding": "gzip, deflate, br",
                       "accept-language": langValue,
-                      "x-requested-with": "XMLHttpRequest",
                       ...(hcookie && { cookie: hcookie }),
                       ...(currentRefererValue && {
                         referer: currentRefererValue,
@@ -849,9 +846,8 @@ function go() {
                       "sec-fetch-mode": selectedModeValue,
                       "sec-fetch-user": "?1",
                       "sec-fetch-dest": selectedDestValue,
-                      "accept-encoding": "gzip, deflate, br, zstd",
+                      "accept-encoding": "gzip, deflate, br",
                       "accept-language": langValue,
-                      "x-requested-with": "XMLHttpRequest",
                       ...(Math.random() < 0.4 && { priority: `u=${fwq}, i` }),
                       ...(hcookie && { cookie: hcookie }),
                       ...(currentRefererValue && {
@@ -885,7 +881,7 @@ function go() {
                   }
 
                   const combinedHeaders = useLegitHeaders
-                    ? headers3.concat()
+                    ? headers3.concat(headers)
                     : headers.concat(headers2);
 
                   function handleQuery(query) {
